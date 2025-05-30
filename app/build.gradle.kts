@@ -1,9 +1,20 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.hilt)
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { input ->
+        localProperties.load(input)
+    }
 }
 
 android {
@@ -18,7 +29,15 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "ARTICLE_API_KEY",
+            "\"${localProperties.getProperty("ARTICLE_API_KEY")}\""
+        )
+        buildConfigField("String", "BASE_URL", "\"${localProperties.getProperty("BASE_URL")}\"")
     }
+
 
     buildTypes {
         release {
@@ -38,6 +57,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -54,11 +74,25 @@ dependencies {
 
     //hilt
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    implementation(libs.androidx.lifecycle.viewmodel.compose.android)
     ksp(libs.hilt.compiler)
 
     //retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+
+    //okhttp
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+
+    //coil
+    implementation(libs.coil)
+    implementation(libs.coil.network)
+
+    //shimmering
+    implementation(libs.valentinik.shimmer)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
