@@ -6,4 +6,6 @@
     <string name="error_please_wait">Mohon Tunggu</string>
     <string name="error_forbidden_title">Akses Terbatas</string>
     <string name="error_forbidden_desc">Anda dilarang untuk mengakses laman ini</string>
+    <string name="header_trending_news">Trending News</string>
+    <string name="header_latest_news">Latest News</string>
 </resources>

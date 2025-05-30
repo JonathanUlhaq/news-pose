@@ -6,26 +6,22 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 fun <DataResponse : Any, DataModel : Any> fetchDataHandler(
-    createCall: () -> Response<DataResponse>,
+    createCall: suspend () -> Response<DataResponse>,
     responseToModel: (DataResponse) -> DataModel
 ): Flow<ResourceHandler<DataModel>> = flow {
-    val apiCall = createCall();
     try {
-        emit(ResourceHandler.Loading(true))
+        val apiCall = createCall()
         if (apiCall.isSuccessful) {
-            emit(ResourceHandler.Loading(false))
             if (apiCall.body() != null) {
                 emit(ResourceHandler.Success(responseToModel(apiCall.body()!!)))
             } else {
-                emit(ResourceHandler.Error(ErrorStatus.GeneralError("Response body kosong")))
+                emit(ResourceHandler.Error(ErrorStatus.GeneralError("Response empty boy")))
             }
         } else {
-            emit(ResourceHandler.Loading(false))
-            val errorMessage = apiCall.errorBody()?.string() ?: "Terjadi kesalahan"
+            val errorMessage = apiCall.errorBody()?.string() ?: "System Error"
             emit(ResourceHandler.Error(ErrorStatus.GeneralError(errorMessage)))
         }
     } catch (e: HttpException) {
-        emit(ResourceHandler.Loading(false))
         when (e.code()) {
             403 -> emit(ResourceHandler.Error(ErrorStatus.Forbidden))
             429 -> emit(ResourceHandler.Error(ErrorStatus.TooManyRequest))
@@ -33,8 +29,6 @@ fun <DataResponse : Any, DataModel : Any> fetchDataHandler(
             else -> emit(ResourceHandler.Error(ErrorStatus.GeneralError(e.message())))
         }
     } catch (e: Exception) {
-        emit(ResourceHandler.Loading(false))
-        emit(ResourceHandler.Error(ErrorStatus.GeneralError(e.message ?: "Terjadi kesalahan")))
-
+        emit(ResourceHandler.Error(ErrorStatus.GeneralError(e.message ?: "System Error")))
     }
 }

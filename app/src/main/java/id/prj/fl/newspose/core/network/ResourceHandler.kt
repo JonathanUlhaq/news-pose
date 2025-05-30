@@ -1,7 +1,7 @@
 package id.prj.fl.newspose.core.network
 
-sealed class ResourceHandler<out T> {
-    data class Success<T>(val data: T) : ResourceHandler<T>()
-    data class Error(val errorStatus: ErrorStatus?) : ResourceHandler<Nothing>()
-    data class Loading(val isLoading: Boolean) : ResourceHandler<Nothing>()
+sealed class ResourceHandler<out Data> {
+    data class Success<out Data>(val data: Data) : ResourceHandler<Data>()
+    data class Error(val errorStatus: ErrorStatus) : ResourceHandler<Nothing>()
+
 }
