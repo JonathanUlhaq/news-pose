@@ -13,6 +13,6 @@ interface NewsApiService {
         @Query("articlesPage") articlesPage:Int,
         @Query("articlesCount") articlesCount:Int,
         @Query("articlesSortBy") articleSortBy:String?,
-        @Query("keyword") keyword:String?,
+        @Query("keyword") keyword:List<String>,
     ): Response<ArticlesResponse>
 }

@@ -12,7 +12,7 @@ import javax.inject.Inject
 class NewsRepositoryImpl @Inject constructor(val serivce: NewsApiService) : NewsRepository {
     override fun getNewsArticle(
         sortBy: String?,
-        keyword: String?,
+        keyword: List<String>,
         articleCounts:Int,
         page:Int,
     ): Flow<ResourceHandler<ArticlesModel>> = fetchDataHandler(

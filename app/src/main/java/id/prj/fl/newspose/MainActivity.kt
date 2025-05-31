@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
-import id.prj.fl.newspose.features.home.presentation.view.HomeView
+import id.prj.fl.newspose.core.navigation.NewsNavigation
 import id.prj.fl.newspose.ui.theme.NewsPoseTheme
 
 @AndroidEntryPoint
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .padding(innerPadding)
                     ) {
-                        HomeView()
+                        NewsNavigation()
                     }
                 }
             }

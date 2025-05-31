@@ -8,4 +8,7 @@
     <string name="error_forbidden_desc">Anda dilarang untuk mengakses laman ini</string>
     <string name="header_trending_news">Trending News</string>
     <string name="header_latest_news">Latest News</string>
+    <string name="label_categories">Categories</string>
+    <string name="label_list_news_empty">News topic not found</string>
+    <string name="jowo_pos">Jowo Pos</string>
 </resources>

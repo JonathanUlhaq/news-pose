@@ -16,6 +16,7 @@ lifecycleViewmodelComposeAndroid = "2.9.0"
 hiltNavigation = "1.2.0"
 coil = "3.2.0"
 valentinikShimmer = "1.3.3"
+composeNavigation = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,11 +56,17 @@ coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", versi
 #shimmer
 valentinik-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "valentinikShimmer" }
 
+#navigation
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspPlugin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 
