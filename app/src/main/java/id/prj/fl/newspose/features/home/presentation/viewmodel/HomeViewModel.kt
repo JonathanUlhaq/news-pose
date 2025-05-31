@@ -1,6 +1,9 @@
 package id.prj.fl.newspose.features.home.presentation.viewmodel
 
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +24,7 @@ data class HomeUiState(
     val articles: List<ArticlesModel.ArticleResultModel.ArticlesListResultModel> = emptyList(),
     val hotArticles: List<ArticlesModel.ArticleResultModel.ArticlesListResultModel> = emptyList(),
     val isLoading: Boolean = false,
+    val isPagingLoading: Boolean = false,
     val error: ErrorStatus? = null
 )
 
@@ -38,6 +42,28 @@ class HomeViewModel @Inject constructor(
         mutableIntStateOf(-1)
     }
 
+    private val selectedCategories: MutableList<String> by savedStateHandle.saveable(
+        saver = listSaver(
+            save = { value ->
+                value.toList()
+            },
+            restore = { list ->
+                list.toMutableStateList()
+            }
+        )
+    ) {
+        mutableStateListOf()
+    }
+
+    val newsCategories = listOf(
+        "Indonesia",
+        "Politic",
+        "Economy",
+        "Social",
+        "Law",
+        "Firm",
+    )
+
     init {
         callNewsArticle()
         callHotNewsArticle()
@@ -45,17 +71,22 @@ class HomeViewModel @Inject constructor(
 
 
     fun callNewsArticle() = viewModelScope.launch {
-        if (currentPage != -1) return@launch
-        _viewState.update { it.copy(isLoading = false) }
+        _viewState.update { it.copy(isLoading = true, isPagingLoading = false) }
         getNewsArticlesUseCase.invoke(
             sortBy = "date",
-            keyword = "all",
+            keyword = selectedCategories.ifEmpty { listOf("all") },
             articleCounts = 10,
             page = 1,
         ).collect { resource ->
             when (resource) {
                 is ResourceHandler.Error -> {
-                    _viewState.update { it.copy(isLoading = false, error = resource.errorStatus) }
+                    _viewState.update {
+                        it.copy(
+                            isLoading = false,
+                            isPagingLoading = false,
+                            error = resource.errorStatus
+                        )
+                    }
                 }
 
                 is ResourceHandler.Success -> {
@@ -65,6 +96,7 @@ class HomeViewModel @Inject constructor(
                         it.copy(
                             error = null,
                             isLoading = false,
+                            isPagingLoading = false,
                             articles = resource.data.articles.results
                         )
                     }
@@ -74,10 +106,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun callHotNewsArticle() = viewModelScope.launch {
-        _viewState.update { it.copy(isLoading = false) }
+        _viewState.update { it.copy(isLoading = true, isPagingLoading = false) }
+
         getNewsArticlesUseCase.invoke(
             sortBy = "sourceAlexaGlobalRank",
-            keyword = "all",
+            keyword = selectedCategories.ifEmpty { listOf("all") },
             articleCounts = 5,
             page = 1,
         ).collect { resource ->
@@ -90,6 +123,7 @@ class HomeViewModel @Inject constructor(
                     _viewState.update {
                         it.copy(
                             isLoading = false,
+                            isPagingLoading = false,
                             hotArticles = resource.data.articles.results
                         )
                     }
@@ -98,19 +132,25 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun callNextNewsArticle() = viewModelScope.launch {
-        val nextPage = currentPage + 1
+    fun callNextNewsArticle(isNewCategories:Boolean) = viewModelScope.launch {
+        val nextPage = if (isNewCategories) 1 else currentPage + 1
         if (nextPage > 5) return@launch
-        _viewState.update { it.copy(isLoading = true) }
+        _viewState.update { it.copy(isLoading = false, isPagingLoading = true) }
         getNewsArticlesUseCase.invoke(
             sortBy = null,
-            keyword = "all",
+            keyword = selectedCategories.ifEmpty { listOf("all") },
             articleCounts = 15,
             page = nextPage,
         ).collect { resource ->
             when (resource) {
                 is ResourceHandler.Error -> {
-                    _viewState.update { it.copy(isLoading = false, error = resource.errorStatus) }
+                    _viewState.update {
+                        it.copy(
+                            isLoading = false,
+                            isPagingLoading = false,
+                            error = resource.errorStatus
+                        )
+                    }
                 }
 
                 is ResourceHandler.Success -> {
@@ -118,14 +158,24 @@ class HomeViewModel @Inject constructor(
                         it.copy(
                             error = null,
                             isLoading = false,
-                            articles = it.articles + resource.data.articles.results
+                            isPagingLoading = false,
+                            articles = if (isNewCategories) resource.data.articles.results else it.articles + resource.data.articles.results
                         )
                     }
                     currentPage = nextPage
-
                 }
             }
         }
 
+    }
+
+    fun selectedCategories(): MutableList<String> = selectedCategories
+
+    fun addSelectedCategories(categories: String) {
+        selectedCategories.add(categories)
+    }
+
+    fun removeSelectedCategories(categories: String) {
+        selectedCategories.remove(categories)
     }
 }

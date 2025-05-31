@@ -1,6 +1,5 @@
 package id.prj.fl.newspose.features.home.domain.model
 
-import java.util.UUID
 
 data class ArticlesModel(
     val articles: ArticleResultModel,
@@ -13,7 +12,6 @@ data class ArticlesModel(
         val results: List<ArticlesListResultModel>
     ) {
         data class ArticlesListResultModel(
-            val id:UUID = UUID.randomUUID(),
             val uri: String,
             val lang: String,
             val date: String,
