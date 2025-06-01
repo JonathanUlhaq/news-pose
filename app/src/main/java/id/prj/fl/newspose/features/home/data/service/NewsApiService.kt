@@ -9,7 +9,6 @@ import retrofit2.http.Query
 interface NewsApiService {
     @GET("article/getArticles")
     suspend fun getArticles(
-        @Query("apiKey") apiKey: String = BuildConfig.ARTICLE_API_KEY,
         @Query("articlesPage") articlesPage:Int,
         @Query("articlesCount") articlesCount:Int,
         @Query("articlesSortBy") articleSortBy:String?,
