@@ -18,10 +18,4 @@ class HomeDomainModule {
     @Singleton
     fun newsRepositoryProvider(service: NewsApiService): NewsRepository =
         NewsRepositoryImpl(service)
-
-    @Provides
-    @Singleton
-    fun getNewsArticlesUseCaseProvider(newsRepository: NewsRepository): GetNewsArticlesUseCase =
-        GetNewsArticlesUseCase(newsRepository)
-
 }

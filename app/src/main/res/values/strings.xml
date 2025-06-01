@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">NewsPose</string>
-    <string name="error_limit_access">Limit Akses</string>
-    <string name="error_limit_access_desc">Limit akses har ini telah mencapai maksimal</string>
-    <string name="error_too_many_request_desc">Akses anda sedang diproses</string>
-    <string name="error_please_wait">Mohon Tunggu</string>
-    <string name="error_forbidden_title">Akses Terbatas</string>
-    <string name="error_forbidden_desc">Anda dilarang untuk mengakses laman ini</string>
+    <string name="error_limit_access">Access limit</string>
+    <string name="error_limit_access_desc">Access has reached the limit</string>
+    <string name="error_too_many_request_desc">In progress</string>
+    <string name="error_please_wait">Please Wait</string>
+    <string name="error_forbidden_title">Access Restricted</string>
+    <string name="error_forbidden_desc">Access Restricted</string>
     <string name="header_trending_news">Trending News</string>
     <string name="header_latest_news">Latest News</string>
     <string name="label_categories">Categories</string>

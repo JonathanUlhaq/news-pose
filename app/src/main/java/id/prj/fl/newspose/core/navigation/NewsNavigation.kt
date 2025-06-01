@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import id.prj.fl.newspose.features.home.presentation.view.HomeView
+import id.prj.fl.newspose.features.newsdetail.presentation.view.NewsDetailView
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -24,6 +25,12 @@ fun NewsNavigation() {
         composable<Home> {
             HomeView { newsUri ->
                 navController.navigate(Detail(newsUri))
+            }
+        }
+
+        composable<Detail> {
+            NewsDetailView {
+                navController.navigateUp()
             }
         }
     }

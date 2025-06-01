@@ -9,10 +9,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import id.prj.fl.newspose.R
 
-val newsFontFamily:FontFamily = FontFamily(
+val newsFontFamily: FontFamily = FontFamily(
     Font(R.font.newsreader_bold, weight = FontWeight.Bold),
     Font(R.font.newsreader_regular, weight = FontWeight.Normal)
 )
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     headlineMedium = TextStyle(
@@ -56,6 +57,12 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         color = BlueOpal
+    ),
+    bodySmall = TextStyle(
+        fontFamily = newsFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        color = DarkBlueOpal
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
