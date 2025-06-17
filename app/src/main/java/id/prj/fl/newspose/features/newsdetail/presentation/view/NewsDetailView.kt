@@ -51,7 +51,6 @@ fun NewsDetailView(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Spacer(Modifier.height(12.dp))
             NewsDetailTopBar(
                 isSaved = false,
                 onBackClick = onBackFinish,
