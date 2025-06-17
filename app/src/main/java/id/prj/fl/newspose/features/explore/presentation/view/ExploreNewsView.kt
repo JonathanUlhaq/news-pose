@@ -82,7 +82,7 @@ fun ExploreNewsView(
                 },
                 onDone = {
                     viewModel.addSearchHistory()
-                    viewModel.callSearchNewsArticles(false)
+                    viewModel.callSearchNewsArticles(true)
                 },
                 onDelete = {
                     viewModel.setKeywordValue("")

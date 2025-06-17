@@ -106,9 +106,8 @@ class ExploreNewsViewModel @Inject constructor(
 
     fun addSearchHistory() = viewModelScope.launch {
         if (keyword in listSearchHistory) return@launch
-        if (listSearchHistory.size > 5) {
-            listSearchHistory.removeAt(0)
-            listSearchHistory.removeAt(1)
+        if (listSearchHistory.size > 4) {
+            listSearchHistory.removeRange(0,2)
             listSearchHistory.add(keyword)
             newsStore.storeHistoryList(listSearchHistory)
         } else {
