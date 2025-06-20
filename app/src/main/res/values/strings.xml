@@ -11,4 +11,6 @@
     <string name="label_categories">Categories</string>
     <string name="label_list_news_empty">News topic not found</string>
     <string name="jowo_pos">Jowo Pos</string>
+    <string name="relevant_result">Relevant Result</string>
+    <string name="search_history">Search History</string>
 </resources>

@@ -14,6 +14,7 @@ class QueryApiKeyInterceptor : Interceptor {
 
         val newUrl = originalRequest.url.newBuilder()
             .addQueryParameter("apiKey", BuildConfig.ARTICLE_API_KEY)
+            .addQueryParameter("isDuplicateFilter", "skipDuplicates")
             .build()
 
         val newRequest = originalRequest.newBuilder()
