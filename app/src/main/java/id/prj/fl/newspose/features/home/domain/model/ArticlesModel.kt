@@ -1,5 +1,7 @@
 package id.prj.fl.newspose.features.home.domain.model
 
+import id.prj.fl.newspose.features.home.data.entities.ArticleEntity
+
 
 data class ArticlesModel(
     val articles: ArticleResultModel,
@@ -22,7 +24,21 @@ data class ArticlesModel(
             val title: String,
             val body: String,
             val image: String,
-        )
+        ) {
+            fun toEntity(): ArticleEntity =
+                ArticleEntity(
+                    uri = this.uri,
+                    lang = this.lang,
+                    date = this.date,
+                    time = this.time,
+                    dateTime = this.dateTime,
+                    dateTimePub = this.dateTimePub,
+                    url = this.url,
+                    title = this.title,
+                    body = this.body,
+                    image = this.image
+                )
+        }
     }
 
 }
