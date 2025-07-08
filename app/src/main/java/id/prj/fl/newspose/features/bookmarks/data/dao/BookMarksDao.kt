@@ -8,11 +8,14 @@ import id.prj.fl.newspose.features.bookmarks.data.entities.BookMarksEntity
 
 @Dao
 interface BookMarksDao {
-    @Query("SELECT * FROM bookmark_table LIMIT :pageSize OFFSET (:pageOffset * :pageSize)")
+    @Query("SELECT * FROM bookmark_table LIMIT :pageSize OFFSET :pageOffset")
     suspend fun getAllBookMarks(
         pageSize: Int,
         pageOffset: Int
     ): List<BookMarksEntity>
+
+    @Query("SELECT * FROM bookmark_table WHERE uri = :uri LIMIT 1")
+    suspend fun getBookMarkByUri(uri: String): BookMarksEntity
 
     @Query("SELECT EXISTS(SELECT 1 FROM bookmark_table WHERE uri = :uri LIMIT 1)")
     suspend fun isBookMarked(uri: String): Boolean

@@ -1,6 +1,5 @@
 package id.prj.fl.newspose.core.navigation
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,7 +12,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
@@ -22,6 +20,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import id.prj.fl.newspose.core.component.MainTopBar
 import id.prj.fl.newspose.core.model.NavigationItem
+import id.prj.fl.newspose.features.bookmarks.presentation.view.ListBookMarksView
+import id.prj.fl.newspose.features.bookmarks.presentation.view.NewsDetailBookMarkView
 import id.prj.fl.newspose.features.explore.presentation.view.ExploreNewsView
 import id.prj.fl.newspose.features.home.presentation.view.HomeView
 import id.prj.fl.newspose.features.newsdetail.presentation.view.NewsDetailView
@@ -39,6 +39,9 @@ object Bookmark
 
 @Serializable
 data class Detail(val newsUri: String)
+
+@Serializable
+data class DetailBookMark(val newsUri: String)
 
 @Composable
 fun NewsNavigation() {
@@ -59,8 +62,6 @@ fun NewsNavigation() {
     var topPadding by remember {
         mutableStateOf(0.dp)
     }
-
-    val context = LocalContext.current
 
 
     Surface(
@@ -107,6 +108,18 @@ fun NewsNavigation() {
                         navController.navigate(Detail(newsUri))
                     }
                 }
+
+                composable<Bookmark> {
+                    ListBookMarksView { uri ->
+                        navController.navigate(DetailBookMark(uri))
+                    }
+                }
+
+                composable<DetailBookMark> {
+                    NewsDetailBookMarkView {
+                        navController.navigateUp()
+                    }
+                }
             }
 
             if (currentRoute in bottomBarRoute) {
@@ -134,7 +147,10 @@ fun NewsNavigation() {
                         }
 
                         NavigationItem.BOOKMARKS -> {
-                            Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
+                            navController.navigate(Bookmark) {
+                                popUpTo(0) { inclusive = true }
+                                launchSingleTop = true
+                            }
                         }
                     }
                 }

@@ -5,15 +5,9 @@ import id.prj.fl.newspose.features.bookmarks.domain.model.BookMarksModel
 import kotlinx.coroutines.flow.Flow
 
 interface MainBookMarkRepository {
-    fun getBookMarks(): Flow<ResourceHandler<List<BookMarksModel>>>
+    fun getBookMarks(pageSize: Int, page: Int): Flow<ResourceHandler<List<BookMarksModel>>>
+    fun getBookMarkByUri(uri: String): Flow<ResourceHandler<BookMarksModel>>
     fun isBookMarksExist(uri: String): Flow<ResourceHandler<Boolean>>
-    suspend fun addToBookMarks(
-        uri: String,
-        title: String,
-        date: String,
-        image: String,
-        dataType: String
-    )
-
+    suspend fun addToBookMarks(bookMarksModel: BookMarksModel)
     suspend fun deleteFromBookMarks(uri: String)
 }

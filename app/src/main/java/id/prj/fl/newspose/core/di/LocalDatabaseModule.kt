@@ -22,8 +22,4 @@ class LocalDatabaseModule {
             NewsAppDatabase::class.java,
             "news_article_database"
         ).build()
-
-    @Provides
-    fun provideHomeArticleDao(database: NewsAppDatabase) =
-        database.homeArticleDao()
 }

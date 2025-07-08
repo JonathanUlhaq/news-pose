@@ -8,6 +8,7 @@ data class NewsDetailResponse(
 )
 
 data class NewsDetailInfoResponse(
+    val uri: String?,
     val date: String?,
     val title: String?,
     val body: String?,
@@ -16,6 +17,7 @@ data class NewsDetailInfoResponse(
 
 private fun NewsDetailInfoResponse?.toModel(): NewsDetailInfoModel =
     NewsDetailInfoModel(
+        uri = this?.uri.orEmpty(),
         date = this?.date.orEmpty(),
         title = this?.title.orEmpty(),
         body = this?.body.orEmpty(),

@@ -52,9 +52,15 @@ fun NewsDetailView(
                 .fillMaxSize()
         ) {
             NewsDetailTopBar(
-                isSaved = false,
+                isSaved = viewState.isAddToBookMarks,
                 onBackClick = onBackFinish,
-                onSaveClick = {}
+                onSaveClick = {
+                    if (viewState.isAddToBookMarks) {
+                        viewModel.removeBookMarks()
+                    } else {
+                        viewModel.saveBookMarks()
+                    }
+                }
             )
 
             Column(
