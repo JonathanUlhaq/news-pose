@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
-fun <DbModel : Any, DomainModel : Any> fetchDatabaseHandler(
-    dbModel: suspend () -> DbModel,
-    dbModelToDomainModel: (DbModel) -> DomainModel
+fun <DbEntity : Any, DomainModel : Any> fetchLocalDatabaseHandler(
+    dataAccessObject: suspend () -> DbEntity,
+    dbModelToDomainModel: (DbEntity) -> DomainModel
 ):Flow<ResourceHandler<DomainModel>> = flow<ResourceHandler<DomainModel>> {
-    val result = dbModel()
+    val result = dataAccessObject()
     emit(ResourceHandler.Success(dbModelToDomainModel(result)))
 }.catch { exception ->
     emit(ResourceHandler.Error(ErrorStatus.GeneralError(exception.message ?: "System Error")))

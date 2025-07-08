@@ -9,7 +9,7 @@ import id.prj.fl.newspose.features.home.data.entities.ArticleEntity
 
 @Database(
     entities = [BookMarksEntity::class, ArticleEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class NewsAppDatabase : RoomDatabase() {

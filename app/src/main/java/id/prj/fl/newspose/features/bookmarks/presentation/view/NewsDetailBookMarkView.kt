@@ -1,4 +1,4 @@
-package id.prj.fl.newspose.features.newsdetail.presentation.view
+package id.prj.fl.newspose.features.bookmarks.presentation.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import id.prj.fl.newspose.core.dialog.NewsDialog
 import id.prj.fl.newspose.core.dialog.rememberNewsDialogState
+import id.prj.fl.newspose.features.bookmarks.presentation.viewmodel.NewsDetailBookMarkViewModel
 import id.prj.fl.newspose.features.newsdetail.presentation.component.NewsDetailBody
 import id.prj.fl.newspose.features.newsdetail.presentation.component.NewsDetailBodyShimmer
 import id.prj.fl.newspose.features.newsdetail.presentation.component.NewsDetailHeader
@@ -25,8 +26,8 @@ import id.prj.fl.newspose.features.newsdetail.presentation.component.NewsDetailT
 import id.prj.fl.newspose.features.newsdetail.presentation.viewmodel.NewsDetailViewModel
 
 @Composable
-fun NewsDetailView(
-    viewModel: NewsDetailViewModel = hiltViewModel(),
+fun NewsDetailBookMarkView(
+    viewModel: NewsDetailBookMarkViewModel = hiltViewModel(),
     onBackFinish: () -> Unit
 ) {
     val viewState = viewModel.viewState.collectAsState().value
@@ -68,7 +69,7 @@ fun NewsDetailView(
                     .fillMaxSize()
                     .verticalScroll(scrollState)
             ) {
-                if (viewState.loading) {
+                if (viewState.isLoading) {
                     Spacer(Modifier.height(20.dp))
                     NewsDetailHeaderShimmer()
                     Spacer(Modifier.height(12.dp))
@@ -78,13 +79,13 @@ fun NewsDetailView(
                 } else {
                     Spacer(Modifier.height(20.dp))
                     NewsDetailHeader(
-                        title = viewState.data.info.title,
-                        date = viewState.data.info.date
+                        title = viewState.bookMark.title,
+                        date = viewState.bookMark.date
                     )
                     Spacer(Modifier.height(12.dp))
-                    NewsDetailImage(viewState.data.info.image)
+                    NewsDetailImage(viewState.bookMark.image)
                     Spacer(Modifier.height(20.dp))
-                    NewsDetailBody(viewState.data.info.body)
+                    NewsDetailBody(viewState.bookMark.desc)
                     Spacer(Modifier.height(20.dp))
                 }
             }
