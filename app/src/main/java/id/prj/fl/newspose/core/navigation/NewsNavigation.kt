@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,6 +63,10 @@ fun NewsNavigation() {
 
     var topPadding by remember {
         mutableStateOf(0.dp)
+    }
+
+    var selectedItem by rememberSaveable {
+        mutableIntStateOf(0)
     }
 
 
@@ -129,7 +135,11 @@ fun NewsNavigation() {
                         .onGloballyPositioned { coordinates ->
                             bottomPadding =
                                 with(localDensity) { coordinates.size.height.toDp() }
-                        }
+                        },
+                    selectedItem = selectedItem,
+                    setSelectedItem = { index ->
+                        selectedItem = index
+                    }
                 ) { navItem ->
                     when (navItem) {
                         NavigationItem.HOME -> {

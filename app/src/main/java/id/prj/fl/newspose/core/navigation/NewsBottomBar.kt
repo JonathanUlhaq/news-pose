@@ -18,9 +18,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,11 +36,10 @@ import id.prj.fl.newspose.ui.theme.SteelBlue
 @Composable
 fun NewsBottomBar(
     modifier: Modifier = Modifier,
+    selectedItem: Int,
+    setSelectedItem: (Int) -> Unit,
     onClick: (NavigationItem) -> Unit,
 ) {
-    var selectedItem by rememberSaveable {
-        mutableIntStateOf(0)
-    }
     val bottomNavigationItems = listOf(
         BottomNavigationItemModel(
             title = NavigationItem.HOME,
@@ -90,7 +86,7 @@ fun NewsBottomBar(
                     selectedIcon = item.selectedIcon,
                     isSelected = index == selectedItem,
                 ) {
-                    selectedItem = index
+                    setSelectedItem(index)
                     onClick.invoke(item.title)
                 }
             }
@@ -144,8 +140,5 @@ private fun NewsBottomBarItem(
 @Composable
 private fun NewsBottomBarPreview() {
     NewsPoseTheme {
-        NewsBottomBar {
-
-        }
     }
 }
